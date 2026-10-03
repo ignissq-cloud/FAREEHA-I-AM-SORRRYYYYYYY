@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For Fareeha</title>
+<style>
+:root{
+  --cream:#fbf4ea; --blush:#f4cfd2; --blush-deep:#ecb3ba; --rose:#c47d87; --rose-dark:#8a3d4c;
+  --beige:#eadcc8; --brown:#5a4038; --brown-soft:#8c7066;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.9,.3,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:var(--sans); color:var(--brown); line-height:1.5;
+  background:radial-gradient(1200px 600px at 50% -10%,#fde9e6 0%,transparent 60%),
+             radial-gradient(900px 500px at 100% 100%,#f7e6d2 0%,transparent 60%),var(--cream);
+  background-attachment:fixed; min-height:100dvh; overflow-x:hidden;
+}
+#hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.heart{position:absolute;bottom:-30px;color:var(--blush-deep);opacity:0;animation:drift linear forwards}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(.7);opacity:0}
+  15%{opacity:.7}
+  100%{transform:translate(var(--dx),-110vh) scale(1.1);opacity:0}
+}
+#stage{position:relative;z-index:1;min-height:100dvh;display:grid;place-items:center;padding:20px;transition:opacity 2.2s ease}
+#stage.faded{opacity:.14}
+.screen{
+  width:min(100%,460px); text-align:center; padding:28px 22px 30px;
+  background:rgba(255,251,246,.82); border:1px solid rgba(236,179,186,.35); border-radius:28px;
+  box-shadow:0 18px 50px -18px rgba(138,61,76,.25),0 2px 0 rgba(255,255,255,.8) inset;
+  opacity:0; transform:translateY(12px) scale(.98); transition:opacity .35s var(--ease),transform .35s var(--ease);
+}
+.screen[hidden]{display:none}
+.screen.in{opacity:1;transform:none}
+.cat{
+  width:clamp(150px,44vw,200px); aspect-ratio:1; margin:0 auto 14px; display:grid; place-items:center;
+  background:radial-gradient(circle at 50% 40%,#fff 0%,var(--blush) 100%); border-radius:50%;
+  box-shadow:0 10px 24px -10px rgba(138,61,76,.35); animation:bob 4s ease-in-out infinite; overflow:hidden;
+}
+.cat img{width:88%;height:88%;object-fit:contain}
+.cat-emoji{font-size:clamp(4.2rem,20vw,5.6rem);line-height:1}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.cat.shake{animation:shake .5s ease-in-out infinite}
+@keyframes shake{25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+h1,h2{font-family:var(--serif);font-weight:700;margin:0 0 8px;letter-spacing:-.01em;outline:none}
+h1{font-size:clamp(1.7rem,7vw,2.2rem);line-height:1.15}
+h2{font-size:1.25rem;min-height:1.6em}
+p{margin:0 0 10px;overflow-wrap:anywhere}
+.small{font-size:.9rem;color:var(--brown-soft)}
+.line{opacity:0;transform:translateY(6px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.line.on{opacity:1;transform:none}
+.line[hidden]{display:none}
+.bar{height:10px;border-radius:99px;background:var(--beige);overflow:hidden;margin:14px auto 18px;width:80%}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--blush-deep),var(--rose));transition:width .6s linear}
+.verdict{min-height:3.6em}
+.btn{
+  font:inherit;font-weight:700;letter-spacing:.04em;cursor:pointer;border:0;border-radius:22px;
+  padding:14px 30px;min-height:48px;color:var(--rose-dark);background:var(--blush);
+  box-shadow:0 6px 0 var(--blush-deep),0 12px 20px -8px rgba(138,61,76,.3);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.btn:hover{transform:translateY(-2px) scale(1.04);background:#f8d9db}
+.btn:active{transform:translateY(4px) scale(.97);box-shadow:0 2px 0 var(--blush-deep)}
+.btn:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.btn.ghost{background:var(--cream);color:var(--brown-soft);box-shadow:0 0 0 2px var(--beige),0 8px 14px -8px rgba(90,64,56,.3)}
+.btn:disabled{pointer-events:none}
+.row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.row .btn{flex:1 1 120px;max-width:180px}
+.arena{position:relative;height:130px;width:min(100%,300px);margin:8px auto 0}
+#noBtn{
+  position:absolute;left:50%;top:50%;white-space:nowrap;padding:12px 22px;
+  transform:translate(-50%,-50%) scale(1);
+  transition:left .5s var(--ease),top .5s var(--ease),transform .5s var(--ease),opacity .4s;
+}
+#noBtn:hover,#noBtn:active{background:var(--cream)}
+#noBtn.gone{opacity:0;pointer-events:none}
+.sig{font-family:var(--serif);font-style:italic;font-size:1.2rem;margin-top:14px}
+.checks{list-style:none;margin:14px auto;padding:14px 16px;text-align:left;border-radius:20px;background:var(--cream);border:1px dashed var(--blush-deep);font-size:.95rem}
+.checks li{opacity:0;transform:translateX(-8px);transition:opacity .4s var(--ease),transform .4s var(--ease);padding:2px 0}
+.checks li.on{opacity:1;transform:none}
+.checks b{color:var(--rose);margin-right:8px}
+#ending{position:fixed;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none;opacity:0;transition:opacity 1.6s ease 1s}
+#ending.on{opacity:1}
+#ending p{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,6vw,1.8rem);color:var(--rose-dark);text-align:center;padding:0 24px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  #hearts{display:none}
+}
+</style>
+</head>
+<body>
+<div id="hearts" aria-hidden="true"></div>
+
+<main id="stage">
+
+  <!-- 1. LOADING -->
+  <section class="screen" id="s-loading" aria-labelledby="loadMsg">
+    <div class="cat" data-cat="normal"></div>
+    <h2 id="loadMsg" tabindex="-1" aria-live="polite">Analyzing the situation...</h2>
+    <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+    <div class="verdict" aria-live="polite">
+      <p class="line" id="v1">Unfortunately, i found out who messed up...</p>
+      <p class="line small" id="v2">it was MEEEE.</p>
+    </div>
+  </section>
+
+  <!-- 2. THE QUESTION -->
+  <section class="screen" id="s-question" aria-labelledby="qTitle" hidden>
+    <div class="cat" data-cat="normal"></div>
+    <h1 id="qTitle" tabindex="-1">Fareeha, are you angry?</h1>
+    <p class="small">Be honest. The cat can handle it.</p>
+    <div class="row">
+      <button class="btn" id="qYes" type="button">YES</button>
+      <button class="btn" id="qNo" type="button">NO</button>
+    </div>
+  </section>
+
+  <!-- YES -->
+  <section class="screen" id="s-yes" aria-labelledby="yTitle" hidden>
+    <div class="cat" data-cat="crying"></div>
+    <div aria-live="polite">
+      <h1 id="yTitle" tabindex="-1">OH.</h1>
+      <p class="line" id="y1">Okay... yeah, we messed up.</p>
+      <p class="line small" id="y2">Initiating emergency apology protocol...</p>
+    </div>
+  </section>
+
+  <!-- NO -> suspicious -->
+  <section class="screen" id="s-sus" aria-labelledby="sTitle" hidden>
+    <div class="cat" data-cat="suspicious"></div>
+    <h1 id="sTitle" tabindex="-1">Are you sure?</h1>
+    <p class="small">Because that answer seems suspicious.</p>
+    <div class="row"><button class="btn" id="sYes" type="button">YES, I'M SURE</button></div>
+    <div class="arena">
+      <button class="btn ghost" id="noBtn" type="button">NO...</button>
+    </div>
+  </section>
+
+  <section class="screen" id="s-hmm" aria-labelledby="hTitle" hidden>
+    <div class="cat" data-cat="suspicious"></div>
+    <div aria-live="polite">
+      <h1 id="hTitle" tabindex="-1">Hmmm.</h1>
+      <p class="line" id="h1">Alright... I'll believe you.</p>
+    </div>
+    <div class="row"><button class="btn line" id="hActually" type="button" hidden>Actually...</button></div>
+  </section>
+
+  <!-- HAPPY -->
+  <section class="screen" id="s-happy" aria-labelledby="gTitle" hidden>
+    <div class="cat" data-cat="happy"></div>
+    <div aria-live="polite">
+      <h1 id="gTitle" tabindex="-1">GOOD.</h1>
+      <p class="line" id="g1">Now that we've established you're definitely not angry...</p>
+      <p class="line" id="g2">...we can discuss the fact that I absolutely deserved that.</p>
+    </div>
+  </section>
+
+  <!-- APOLOGY -->
+  <section class="screen" id="s-apology" aria-labelledby="aTitle" hidden>
+    <div class="cat" data-cat="happy"></div>
+    <h1 id="aTitle" tabindex="-1">Okay, seriously.</h1>
+    <p class="line" style="font-family:var(--serif);font-size:1.4rem;font-weight:700">I'm sorry, Fareeha.</p>
+    <p class="line">I was trying way too hard to impress you and somehow managed to become the most boring version of myself.</p>
+    <p class="line">I kept saying “aur sunao” instead of actually giving you something to talk about.</p>
+    <p class="line">That was genuinely my fault.</p>
+    <p class="line small">Official corrective action has been taken.</p>
+    <ul class="checks" id="checks">
+      <li><b>✓</b>“aur sunao” usage reduced</li>
+      <li><b>✓</b>NPC mode disabled</li>
+      <li><b>✓</b>Personality.exe restarted</li>
+      <li><b>✓</b>Actual conversation skills installed</li>
+      <li><b>✓</b>Being stupid slightly reduced</li>
+    </ul>
+    <p class="line">I'll do better.</p>
+    <p class="line sig">— Ahmad</p>
+  </section>
+
+</main>
+
+<div id="ending" aria-live="polite"><p>okay... now come back 😭</p></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------- Config (edit me) ---------- */
+  const CATS = {
+    normal:     { src: '/cats/cat-normal.png',     emoji: '😺' },
+    crying:     { src: '/cats/cat-crying.png',     emoji: '😿' },
+    suspicious: { src: '/cats/cat-suspicious.png', emoji: '🤨' },
+    happy:      { src: '/cats/cat-happy.png',      emoji: '😸' }
+  };
+  const LOADING_MSGS = [
+    'Scanning recent conversations...',
+    'Checking for suspicious levels of boredom...',
+    'Reviewing the evidence...',
+    'Locating the idiot responsible...',
+    "Cross-referencing 'aur sunao' incidents...",
+    'Finalizing diagnosis...'
+  ];
+  const NO_TEXTS = ['no...', 'still no', 'girl 😭', 'please', 'you sure?'];
+  // Safe spots (% of the arena) so the NO button always stays on screen
+  const NO_SPOTS = [[28, 35], [72, 62], [30, 68], [70, 30], [50, 50]];
+
+  /* ---------- Helpers ---------- */
+  const $ = (id) => document.getElementById(id);
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let busy = false;
+  let current = null;
+
+  // Cat images: show emoji first, swap in the image only if it loads
+  function mountCat(frame) {
+    const { src, emoji } = CATS[frame.dataset.cat];
+    const fallback = document.createElement('span');
+    fallback.className = 'cat-emoji';
+    fallback.textContent = emoji;
+    fallback.setAttribute('role', 'img');
+    fallback.setAttribute('aria-label', frame.dataset.cat + ' cat');
+    frame.append(fallback);
+    const img = new Image();
+    img.alt = frame.dataset.cat + ' cat';
+    img.addEventListener('load', () => frame.replaceChildren(img));
+    img.src = src;
+  }
+  document.querySelectorAll('.cat').forEach(mountCat);
+
+  function reveal(...ids) { ids.forEach((id) => { const el = $(id); el.hidden = false; requestAnimationFrame(() => el.classList.add('on')); }); }
+
+  // Floating hearts
+  const heartLayer = $('hearts');
+  function heart() {
+    if (reduceMotion || heartLayer.childElementCount > 24) return;
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = Math.random() > .3 ? '♥' : '✦';
+    h.style.left = Math.random() * 100 + '%';
+    h.style.fontSize = 12 + Math.random() * 16 + 'px';
+    h.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+    h.style.animationDuration = 6 + Math.random() * 5 + 's';
+    h.addEventListener('animationend', () => h.remove());
+    heartLayer.append(h);
+  }
+  function burst(n) { for (let i = 0; i < n; i++) setTimeout(heart, i * 120); }
+  setInterval(heart, 1600);
+
+  // Screen transitions
+  async function go(id) {
+    busy = true;
+    if (current) {
+      current.classList.remove('in');
+      await sleep(reduceMotion ? 0 : 320);
+      current.hidden = true;
+    }
+    current = $(id);
+    current.hidden = false;
+    current.offsetHeight; // reflow so the transition runs
+    current.classList.add('in');
+    current.querySelector('h1,h2').focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+    await sleep(reduceMotion ? 0 : 380);
+    busy = false;
+    const hook = hooks[id];
+    if (hook) hook();
+  }
+  const guard = (fn) => () => { if (!busy) fn(); };
+
+  /* ---------- Screen scripts ---------- */
+  async function runLoading() {
+    const msg = $('loadMsg'), bar = $('barFill');
+    busy = true;
+    for (let i = 0; i < LOADING_MSGS.length; i++) {
+      msg.textContent = LOADING_MSGS[i];
+      bar.style.width = Math.round(((i + 1) / LOADING_MSGS.length) * 92) + '%';
+      await sleep(650);
+    }
+    bar.style.width = '100%';
+    msg.textContent = 'Diagnosis complete.';
+    await sleep(900);
+    reveal('v1');
+    await sleep(1200);
+    reveal('v2');
+    await sleep(1400);
+    go('s-question');
+  }
+
+  async function runYes() {
+    busy = true;
+    await sleep(450); reveal('y1');
+    await sleep(500); reveal('y2');
+    await sleep(1200);
+    go('s-apology');
+  }
+
+  async function runHmm() {
+    busy = true;
+    $('s-hmm').querySelector('.cat').classList.add('shake');
+    await sleep(1500);
+    $('s-hmm').querySelector('.cat').classList.remove('shake');
+    reveal('h1');
+    await sleep(1000);
+    reveal('hActually');
+    busy = false;
+    $('hActually').focus({ preventScroll: true });
+  }
+
+  async function runHappy() {
+    busy = true;
+    burst(14);
+    await sleep(500); reveal('g1');
+    await sleep(1700); reveal('g2');
+    await sleep(2600);
+    go('s-apology');
+  }
+
+  async function runApology() {
+    busy = true;
+    burst(6);
+    const lines = [...$('s-apology').querySelectorAll(':scope > .line')];
+    const items = [...document.querySelectorAll('#checks li')];
+    const checksAt = 5; // checklist appears after the 5th line
+    for (let i = 0; i < lines.length; i++) {
+      if (i === checksAt) {
+        for (const li of items) { li.classList.add('on'); await sleep(320); }
+      }
+      lines[i].hidden = false;
+      requestAnimationFrame(() => lines[i].classList.add('on'));
+      await sleep(i === 0 ? 700 : 1300);
+    }
+    await sleep(4500);
+    $('stage').classList.add('faded');
+    $('ending').classList.add('on');
+    burst(10);
+    setInterval(() => burst(2), 1800);
+  }
+
+  const hooks = { 's-loading': runLoading, 's-yes': runYes, 's-hmm': runHmm, 's-happy': runHappy, 's-apology': runApology };
+
+  /* ---------- Interactions ---------- */
+  $('qYes').addEventListener('click', guard(() => go('s-yes')));
+  $('qNo').addEventListener('click', guard(() => go('s-sus')));
+
+  // Suspicious screen: "YES, I'M SURE" -> Hmmm. After the NO button is gone it becomes "okay fine 😭"
+  let noClicks = 0, noGone = false;
+  $('sYes').addEventListener('click', guard(() => go(noGone ? 's-happy' : 's-hmm')));
+  $('hActually').addEventListener('click', guard(() => go('s-yes')));
+
+  const noBtn = $('noBtn');
+  function placeNo(i) { const [x, y] = NO_SPOTS[i % NO_SPOTS.length]; noBtn.style.left = x + '%'; noBtn.style.top = y + '%'; }
+  noBtn.addEventListener('click', () => {
+    if (busy || noGone) return;
+    noClicks++;
+    if (noClicks <= NO_TEXTS.length) {
+      noBtn.textContent = NO_TEXTS[noClicks - 1];
+      const scale = Math.max(Math.pow(0.8, noClicks), 0.4); // ~20% smaller each time
+      noBtn.style.transform = `translate(-50%,-50%) scale(${scale})`;
+      placeNo(noClicks - 1);
+    }
+    if (noClicks === NO_TEXTS.length) {
+      busy = true; // brief pause, then the NO button quietly leaves
+      setTimeout(() => {
+        noBtn.classList.add('gone');
+        noBtn.disabled = true;
+        noGone = true;
+        const yes = $('sYes');
+        yes.textContent = 'okay fine 😭';
+        yes.focus({ preventScroll: true });
+        busy = false;
+      }, 1300);
+    }
+  });
+
+  // Start
+  go('s-loading');
+})();
+</script>
+</body>
+</html>
